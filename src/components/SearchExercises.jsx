@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import HorizontalScrollbar from './HorizontalScrollbar';
 
 // import { exerciseOptions, fetchData } from '../utils/fetchData'; TODO: uncomment to enable API calls
 
@@ -9,6 +10,8 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   
   const [search, setSearch] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
+
+// make API call to get body parts list on page load 
 
   useEffect(() => {
 
@@ -24,6 +27,8 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
 
     fetchExercisesData();
   }, []);
+
+// capture search term and make API call based on user input
 
   const handleSearch = async () => {
 
@@ -97,6 +102,17 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
                 >
           Search
         </Button>
+
+      </Box>
+
+      <Box sx={{ position: 'relative', width: '100%', p: '20px' }}>
+
+        <HorizontalScrollbar 
+                      data={bodyParts} 
+                      bodyParts 
+                      setBodyPart={setBodyPart} 
+                      bodyPart={bodyPart} 
+                      />
 
       </Box>
 
