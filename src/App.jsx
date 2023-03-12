@@ -1,12 +1,21 @@
-import { useState } from 'react'
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { Box } from '@mui/material';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <h1>exercise app</h1>
-    </div>
+  <BrowserRouter>
+    <Box width="400px" sx={{ width: { xl: '1488px' } }} m="auto">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/exercise/:id" element={<ExerciseDetail />} />
+      </Routes>
+      <Footer />
+    </Box>
+  </BrowserRouter>  
   )
 }
 
