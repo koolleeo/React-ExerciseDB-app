@@ -1,6 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { Navbar, Footer } from './components';
+import { Home, ExerciseDetail } from './pages';
 import './App.css';
 
 function App() {
