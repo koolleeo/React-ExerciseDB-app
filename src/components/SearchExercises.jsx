@@ -1,13 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
-import { exerciseOptions, fetchData } from '../utils/fetchData';
+
+// import { exerciseOptions, fetchData } from '../utils/fetchData'; TODO: uncomment to enable API calls
 
 
-const SearchExercises = () => {
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
 
+  
   const [search, setSearch] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
 
+  useEffect(() => {
+
+    const base_url = 'https://exercisedb.p.rapidapi.com/exercises/bodyPartList';
+
+    const fetchExercisesData = async () => {
+
+      const bodyPartsData = await fetchData(base_url, exerciseOptions);
+
+      setBodyParts(['all', ...bodyPartsData]);
+
+    };
+
+    fetchExercisesData();
+  }, []);
+
+  const handleSearch = async () => {
+
+    const base_url = 'https://exercisedb.p.rapidapi.com/exercises';
+
+    if (search) {
+
+      const exercisesData = await fetchData(base_url, exerciseOptions);
+
+      const searchedExercises = exercisesData.filter(
+
+        (item) => item.name.toLowerCase().includes(search)
+
+               || item.target.toLowerCase().includes(search)
+
+               || item.equipment.toLowerCase().includes(search)
+
+               || item.bodyPart.toLowerCase().includes(search),
+      );
+
+      window.scrollTo({ top: 1800, left: 100, behavior: 'smooth' });
+
+      setSearch('');
+
+      setExercises(searchedExercises);
+
+    }
+  };
 
   return (
     <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
@@ -31,6 +75,8 @@ const SearchExercises = () => {
                 backgroundColor: '#fff', 
                 borderRadius: '40px' 
             }}
+          value={search}
+          onChange={event => setSearch(event.target.value.toLowerCase())}
           placeholder="Search Exercises"
           type="text"
         />
@@ -47,7 +93,7 @@ const SearchExercises = () => {
                     right: '0px', 
                     fontSize: { lg: '20px', xs: '14px' } 
                 }} 
-
+                onClick={handleSearch}
                 >
           Search
         </Button>
